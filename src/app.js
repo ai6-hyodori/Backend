@@ -13,13 +13,15 @@ const corsOptions = {
     origin: 'http://localhost:3000', // 허락하고자 하는 요청 주소
 };
 
+const morganOption = ':method :status :url :response-time ms ip: :remote-addr';
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
     app.use(
-        morgan(':method :status :url :response-time ms ip: :remote-addr', {
+        morgan(morganOption, {
             stream: logger.stream,
         }),
     );
