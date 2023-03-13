@@ -6,6 +6,7 @@ import commonErrors from './middlewares/filter/error/commonError';
 import { CustomError, httpExceptionFilter } from './middlewares/filter';
 import morganMiddleware from './middlewares/logger/morganMiddleware';
 import { logger } from './middlewares/logger/config/logger';
+import connection from './config/db.config';
 
 const app = express();
 
@@ -37,5 +38,12 @@ app.use((req, res, next) => {
 });
 
 app.use(httpExceptionFilter);
+
+connection.connect((err) => {
+    if (err) {
+        throw new CustomError(500, commonErrors.dbConnectionError);
+    }
+    logger.info('DB 연결 성공');
+});
 
 export { app };

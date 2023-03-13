@@ -5,6 +5,7 @@ const commonErrors = {
     argumentError: `Argument Error`, // 400
     businessError: `Business Error`, // 400
     configError: `Config Error`, // 400
+    dbConnectionError: `DB Connection Error`, // 500
     databaseError: `DB Error`,
     fatalError: `Fatal Error`,
     objectCreationError: `Object Creation Error`,
@@ -14,4 +15,4 @@ const commonErrors = {
     requestValidationError: 'Request Validation Error',
 };
 
-export default commonErrors
+export default commonErrors;
