@@ -15,7 +15,7 @@ class UserService {
   }
 
   async create(userDto) {
-    const emailExist = await this.EmailCheck(userDto);
+    const emailExist = await this.emailCheck(userDto);
     if (emailExist) {
       throw new CustomError(
         statusCode.NotFound,
@@ -26,10 +26,10 @@ class UserService {
     userDto.password = await bcrypt.hash(userDto.password, 10);
 
     await userRepository.create(userDto);
-    return await this.findOnebyEmail(userDto);
+    return await this.findOneByEmail(userDto);
   }
 
-  async findOnebyId(userDto) {
+  async findOneById(userDto) {
     const result = await userRepository.findOnebyId(userDto.id);
     console.log(result);
 
@@ -43,7 +43,7 @@ class UserService {
     return result[0];
   }
 
-  async findOnebyEmail(userDto) {
+  async findOneByEmail(userDto) {
     const findUser = await userRepository.findOnebyEmail(userDto.email);
 
     const result = findUser[0];
@@ -58,7 +58,7 @@ class UserService {
     return result;
   }
 
-  async EmailCheck(userDto) {
+  async emailCheck(userDto) {
     const findUser = await userRepository.findOnebyEmail(userDto.email);
 
     const result = findUser[0];
