@@ -3,14 +3,17 @@
 import { execute } from '../../config/db.config';
 
 export class UserRepository {
+  responseUser = `user_id, name, email, phone`;
+  createUser = `user_id, name, email, password, phone`;
+
   async getAll() {
-    const sql = `SELECT * FROM User`;
+    const sql = `SELECT ${this.responseUser} FROM User`;
     return execute(sql);
   }
 
   async create(userdto) {
-    const sql = `INSERT INTO User (user_id, name, email, password, phone) VALUES (?, ?, ?, ?, ?)`;
-    return execute(sql, [
+    const sql = `INSERT INTO User (${this.createUser}) VALUES (?, ?, ?, ?, ?)`;
+    await execute(sql, [
       userdto.id,
       userdto.name,
       userdto.email,
@@ -20,12 +23,12 @@ export class UserRepository {
   }
 
   async findOnebyId(id) {
-    const sql = `SELECT * FROM User WHERE user_id = ?`;
+    const sql = `SELECT ${this.responseUser} FROM User WHERE user_id = ?`;
     return execute(sql, [id]);
   }
 
   async findOnebyEmail(email) {
-    const sql = `SELECT * FROM User WHERE email = ?`;
+    const sql = `SELECT ${this.responseUser} FROM User WHERE email = ?`;
     return execute(sql, [email]);
   }
 }

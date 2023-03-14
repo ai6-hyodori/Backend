@@ -1,8 +1,9 @@
 import { userRepository } from '../db/repository/User';
 import { CustomError } from '../middlewares/filter';
-import commonErrors from '../middlewares/filter/error/commonError';
+import commonErrors from '../middlewares/filter/response/error/commonError';
 import { randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
+import statusCode from '../middlewares/filter/response/statusCode';
 
 class UserService {
   constructor(userRepository) {
@@ -13,38 +14,54 @@ class UserService {
     return users;
   }
 
-  async create(userdto) {
-    const emailexist = await this.findOnebyEmail(userdto);
-    if (emailexist) {
-      throw new CustomError(400, commonErrors.resourceDuplicationError);
+  async create(userDto) {
+    const emailExist = await this.EmailCheck(userDto);
+    if (emailExist) {
+      throw new CustomError(
+        statusCode.NotFound,
+        commonErrors.resourceDuplicationError,
+      );
     }
-    userdto.id = randomUUID();
-    userdto.password = await bcrypt.hash(userdto.password, 10);
+    userDto.id = randomUUID();
+    userDto.password = await bcrypt.hash(userDto.password, 10);
 
-    const createduser = await userRepository.create(userdto);
-    return createduser;
+    await userRepository.create(userDto);
+    return await this.findOnebyEmail(userDto);
   }
 
-  async findOnebyId(userdto) {
-    const findUser = await userRepository.findOnebyId(userdto.id);
+  async findOnebyId(userDto) {
+    const result = await userRepository.findOnebyId(userDto.id);
+    console.log(result);
+
+    if (!result) {
+      throw new CustomError(
+        statusCode.NotFound,
+        commonErrors.resourceNotFoundError,
+      );
+    }
+
+    return result[0];
+  }
+
+  async findOnebyEmail(userDto) {
+    const findUser = await userRepository.findOnebyEmail(userDto.email);
 
     const result = findUser[0];
 
     if (!result) {
-      throw new CustomError(404, commonErrors.resourceNotFoundError);
+      throw new CustomError(
+        statusCode.NotFound,
+        commonErrors.resourceNotFoundError,
+      );
     }
 
     return result;
   }
 
-  async findOnebyEmail(userdto) {
-    const findUser = await userRepository.findOnebyEmail(userdto.email);
+  async EmailCheck(userDto) {
+    const findUser = await userRepository.findOnebyEmail(userDto.email);
 
     const result = findUser[0];
-
-    if (!result) {
-      throw new CustomError(404, commonErrors.resourceNotFoundError);
-    }
 
     return result;
   }
