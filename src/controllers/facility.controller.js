@@ -24,4 +24,17 @@ facilityController.get('/:facility_id', async(req, res, next) => {
     }
 });
 
+// 카테고리 별 문화시설 조회
+facilityController.get('/:category_id', async(req, res, next) => {
+    try {
+        const { category_id } = req.params;
+        const facilities = await facilityService.getFacilitiesByCategory(
+            category_id,
+        );
+        res.status(200).json({ data: facilities });
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { facilityController };

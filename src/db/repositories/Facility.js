@@ -25,6 +25,20 @@ export class FacilityRepository {
 
         return execute(sql, [facility_id]);
     }
+
+    // 카테고리 별 문화시설 조회
+
+    async findByCategory(category_id) {
+        const sql = `
+                SELECT * 
+                FROM Facility
+                LEFT JOIN Category 
+                ON Facility.category_id = Category.category_id
+                WHERE facility_id = ?
+                `;
+
+        return execute(sql, [category_id]);
+    }
 }
 
 const facilityRepository = new FacilityRepository();

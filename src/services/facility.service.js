@@ -24,6 +24,17 @@ class FacilityService {
 
         return facility;
     }
+
+    // 카테고리 별 문화시설 조회
+    async getFacilitiesByCategory(category_id) {
+        const facilities = await facilityRepository.findByCategory(category_id);
+
+        if (!facilities) {
+            throw new CustomError(404, commonErrors.resourceNotFoundError);
+        }
+
+        return facility;
+    }
 }
 
 const facilityService = new FacilityService(facilityRepository);
