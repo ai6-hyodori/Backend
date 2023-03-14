@@ -27,7 +27,7 @@ const logger = winston.createLogger({
   format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat),
   transports: [
     new winstonDaily({
-      level: 'debug',
+      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       datePattern: 'YYYY-MM-DD',
       dirname: logDir,
       filename: `%DATE%.log`,
