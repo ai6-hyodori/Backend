@@ -18,7 +18,6 @@ class UserService {
     if (emailexist) {
       throw new CustomError(400, commonErrors.resourceDuplicationError);
     }
-
     userdto.id = randomUUID();
     userdto.password = await bcrypt.hash(userdto.password, 10);
 
@@ -27,15 +26,27 @@ class UserService {
   }
 
   async findOnebyId(userdto) {
-    const findUser = await userRepository.findOnebyId(userdto);
+    const findUser = await userRepository.findOnebyId(userdto.id);
 
-    return findUser[0];
+    const result = findUser[0];
+
+    if (!result) {
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
+    }
+
+    return result;
   }
 
   async findOnebyEmail(userdto) {
     const findUser = await userRepository.findOnebyEmail(userdto.email);
 
-    return findUser[0];
+    const result = findUser[0];
+
+    if (!result) {
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
+    }
+
+    return result;
   }
 }
 
