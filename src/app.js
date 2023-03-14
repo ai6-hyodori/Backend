@@ -2,11 +2,12 @@ import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import commonErrors from './middlewares/filter/error/commonError';
+import commonErrors from './middlewares/filter/response/error/commonError';
 import { CustomError, httpExceptionFilter } from './middlewares/filter';
 import morganMiddleware from './middlewares/logger/morganMiddleware';
 import { logger } from './middlewares/logger/config/logger';
 import { userController } from './controllers/user.controller';
+import statusCode from './middlewares/filter/response/statusCode';
 
 const app = express();
 
@@ -29,14 +30,20 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'production') {
   app.use(morganMiddleware);
 } else {
-  throw new CustomError(500, commonErrors.configError);
+  throw new CustomError(
+    statusCode.InternalServerError,
+    commonErrors.configError,
+  );
 }
 
 app.use('/api/user', userController);
 
 // 404 에러 핸들러
 app.use((req, res, next) => {
-  throw new CustomError(404, commonErrors.resourceNotFoundError);
+  throw new CustomError(
+    statusCode.NotFound,
+    commonErrors.resourceNotFoundError,
+  );
 });
 
 app.use(httpExceptionFilter);

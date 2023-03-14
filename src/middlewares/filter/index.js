@@ -1,5 +1,3 @@
-export * from './error/commonError';
+export * from './httpException.filter';
 
-export * from './httpException.Filter';
-
-export * from './error/customError';
+export * from './customError';
