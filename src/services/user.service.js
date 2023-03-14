@@ -7,10 +7,10 @@ import statusCode from '../middlewares/filter/response/statusCode';
 
 class UserService {
   constructor(userRepository) {
-    this.user = userRepository;
+    this.userRepository = userRepository;
   }
   async getAll() {
-    const users = await userRepository.getAll();
+    const users = await this.userRepository.getAll();
     return users;
   }
 
@@ -25,7 +25,7 @@ class UserService {
     userDto.id = randomUUID();
     userDto.password = await bcrypt.hash(userDto.password, 10);
 
-    await userRepository.create(userDto);
+    await this.userRepository.create(userDto);
     return await this.findOneByEmail(userDto);
   }
 
@@ -44,7 +44,7 @@ class UserService {
   }
 
   async findOneByEmail(userDto) {
-    const findUser = await userRepository.findOnebyEmail(userDto.email);
+    const findUser = await this.userRepository.findOnebyEmail(userDto.email);
 
     const result = findUser[0];
 
@@ -59,7 +59,7 @@ class UserService {
   }
 
   async emailCheck(userDto) {
-    const findUser = await userRepository.findOnebyEmail(userDto.email);
+    const findUser = await this.userRepository.findOnebyEmail(userDto.email);
 
     const result = findUser[0];
 
