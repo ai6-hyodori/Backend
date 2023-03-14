@@ -11,23 +11,23 @@ export class UserRepository {
     return execute(sql);
   }
 
-  async create(userdto) {
+  async create(userDto) {
     const sql = `INSERT INTO User (${this.createUser}) VALUES (?, ?, ?, ?, ?)`;
     await execute(sql, [
-      userdto.id,
-      userdto.name,
-      userdto.email,
-      userdto.password,
-      userdto.phone,
+      userDto.id,
+      userDto.name,
+      userDto.email,
+      userDto.password,
+      userDto.phone,
     ]);
   }
 
-  async findOnebyId(id) {
+  async findOneById(id) {
     const sql = `SELECT ${this.responseUser} FROM User WHERE user_id = ?`;
     return execute(sql, [id]);
   }
 
-  async findOnebyEmail(email) {
+  async findOneByEmail(email) {
     const sql = `SELECT ${this.responseUser} FROM User WHERE email = ?`;
     return execute(sql, [email]);
   }

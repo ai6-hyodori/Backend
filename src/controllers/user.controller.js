@@ -16,8 +16,7 @@ userController.get('/', async (req, res, next) => {
 
 userController.get('/:id', async (req, res, next) => {
   try {
-    const dto = req.params;
-    const foundUser = await userService.findOneById(dto);
+    const foundUser = await userService.findOneById(req.params);
 
     res.status(statusCode.OK).json({ data: foundUser });
   } catch (error) {
@@ -27,8 +26,7 @@ userController.get('/:id', async (req, res, next) => {
 
 userController.get('/:email', async (req, res, next) => {
   try {
-    const dto = req.params;
-    const foundUser = await userService.findOneByEmail(dto);
+    const foundUser = await userService.findOneByEmail(req.params);
 
     res.status(statusCode.OK).json({ data: foundUser });
   } catch (error) {

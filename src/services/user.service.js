@@ -30,8 +30,7 @@ class UserService {
   }
 
   async findOneById(userDto) {
-    const result = await userRepository.findOnebyId(userDto.id);
-    console.log(result);
+    const result = await userRepository.findOneById(userDto.id);
 
     if (!result) {
       throw new CustomError(
@@ -44,7 +43,7 @@ class UserService {
   }
 
   async findOneByEmail(userDto) {
-    const findUser = await this.userRepository.findOnebyEmail(userDto.email);
+    const findUser = await this.userRepository.findOneByEmail(userDto.email);
 
     const result = findUser[0];
 
@@ -59,7 +58,7 @@ class UserService {
   }
 
   async emailCheck(userDto) {
-    const findUser = await this.userRepository.findOnebyEmail(userDto.email);
+    const findUser = await this.userRepository.findOneByEmail(userDto.email);
 
     const result = findUser[0];
 
