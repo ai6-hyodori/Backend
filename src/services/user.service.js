@@ -15,13 +15,8 @@ class UserService {
   }
 
   async create(userDto) {
-    const emailExist = await this.emailCheck(userDto);
-    if (emailExist) {
-      throw new CustomError(
-        statusCode.NotFound,
-        commonErrors.resourceDuplicationError,
-      );
-    }
+    await this.emailCheck(userDto);
+
     userDto.id = randomUUID();
     userDto.password = await bcrypt.hash(userDto.password, 10);
 
@@ -62,7 +57,12 @@ class UserService {
 
     const result = findUser[0];
 
-    return result;
+    if (result) {
+      throw new CustomError(
+        statusCode.BadRequest,
+        commonErrors.resourceDuplicationError,
+      );
+    }
   }
 }
 
