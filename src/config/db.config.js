@@ -1,14 +1,27 @@
 require('dotenv').config();
 
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const { logger } = require('../middlewares/logger/config/logger');
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PW, MYSQL_DB } = process.env;
 
-const connection = mysql.createConnection({
-    host: MYSQL_HOST,
-    user: MYSQL_USER,
-    password: MYSQL_PW,
-    database: MYSQL_DB,
+const pool = mysql.createPool({
+  host: MYSQL_HOST,
+  user: MYSQL_USER,
+  password: MYSQL_PW,
+  database: MYSQL_DB,
+  connectTimeout: 5000,
+  connectionLimit: 30,
 });
 
-module.exports = connection;
+module.exports = {
+  async execute(sql, params) {
+    try {
+      const [rows, fields] = await pool.execute(sql, params);
+      logger.info(`DB execute success : ${sql}, ${params}`);
+      return rows;
+    } catch (error) {
+      logger.error(error);
+    }
+  },
+};
