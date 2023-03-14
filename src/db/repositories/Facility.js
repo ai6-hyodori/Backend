@@ -34,7 +34,7 @@ export class FacilityRepository {
                 FROM Facility
                 LEFT JOIN Category 
                 ON Facility.category_id = Category.category_id
-                WHERE facility_id = ?
+                WHERE category_id = ?
                 `;
 
         return execute(sql, [category_id]);

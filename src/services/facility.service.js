@@ -33,7 +33,7 @@ class FacilityService {
             throw new CustomError(404, commonErrors.resourceNotFoundError);
         }
 
-        return facility;
+        return facilities;
     }
 }
 
