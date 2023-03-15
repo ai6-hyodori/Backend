@@ -18,4 +18,3 @@ const loginValidator = (req, res, next) => {
 };
 
 export { loginValidator };
-

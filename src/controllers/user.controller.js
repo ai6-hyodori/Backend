@@ -34,7 +34,6 @@ userController.post('/signup', async (req, res, next) => {
   }
 });
 
-
 userController.post('/login', loginValidator, localLogin);
 
 export { userController };

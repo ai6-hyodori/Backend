@@ -39,4 +39,4 @@ class FacilityService {
 
 const facilityService = new FacilityService(facilityRepository);
 
-export {facilityService};
+export { facilityService };
