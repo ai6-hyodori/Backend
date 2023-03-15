@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { userService } from '../services/user.service';
-import { signupvalidator } from '../middlewares/validator/auth.validator';
+import {loginValidator} from '../middlewares/validator';
+import {localLogin} from '../middlewares/handler';
+import {jwtGuard} from '../middlewares/guard';
+
 
 const userController = Router();
 
@@ -13,33 +16,26 @@ userController.get('/', async (req, res, next) => {
   }
 });
 
-userController.get('/:id', async (req, res, next) => {
+userController.get('/:email', jwtGuard, async (req, res, next) => {
   try {
-    const foundUser = await userService.findOneById(req.params);
-
-    res.status(200).json({ data: foundUser });
+    const dto = req.params;
+    const findedUser = await userService.findOnebyEmail(dto);
+    res.status(200).json({ data: findedUser });
   } catch (error) {
     next(error);
   }
 });
 
-userController.get('/:email', async (req, res, next) => {
+userController.post('/signup', async (req, res, next) => {
   try {
-    const foundUser = await userService.findOneByEmail(req.params);
-
-    res.status(200).json({ data: foundUser });
+    const createUser = await userService.create(req.body);
+    res.status(204).json({ data: null });
   } catch (error) {
     next(error);
   }
 });
 
-userController.post('/signup', signupvalidator, async (req, res, next) => {
-  try {
-    const result = await userService.create(req.body);
-    res.status(201).json({ data: result });
-  } catch (error) {
-    next(error);
-  }
-});
+
+userController.post('/login', loginValidator, localLogin);
 
 export { userController };

@@ -55,8 +55,24 @@ class UserService {
       throw new CustomError(404, commonErrors.resourceDuplicationError);
     }
   }
+
+  async checkUser(userdto, password) {
+    const user = await userRepository.findOnebyEmail(userdto);
+    if (!user) {
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
+    }
+    const correctPasswordHash = user[0].password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash,
+    );
+    if (!isPasswordCorrect) {
+      throw new CustomError(400, commonErrors.inputError);
+    }
+    return user;
+  }
 }
 
 const userService = new UserService(userRepository);
 
-export {userService};
+export { userService };
