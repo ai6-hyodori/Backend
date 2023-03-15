@@ -4,14 +4,13 @@ import process from 'process';
 
 const { combine, timestamp, printf } = winston.format;
 
-
 const colors = {
     error: 'red',
     warn: 'yellow',
     info: 'green',
     http: 'magenta',
     debug: 'blue',
-}
+};
 
 winston.addColors(colors);
 
@@ -19,19 +18,16 @@ winston.addColors(colors);
 const logDir = `${process.cwd()}/logs`;
 
 //* log 출력 포맷 정의 함수
-const logFormat = printf(({level, message, timestamp}) => {
+const logFormat = printf(({ level, message, timestamp }) => {
     return `${timestamp} [${level}] ${message}`;
 });
 
 const logger = winston.createLogger({
     //* 로그 출력 형식
-    format: combine(
-        timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
-        logFormat,
-    ),
+    format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat),
     transports: [
         new winstonDaily({
-            level: 'http',
+            level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
             datePattern: 'YYYY-MM-DD',
             dirname: logDir,
             filename: `%DATE%.log`,
@@ -71,19 +67,17 @@ logger.stream = {
     },
 };
 
-
 if (process.env.NODE_ENV === 'development') {
     logger.add(
         new winston.transports.Console({
-            level: 'http',
+            level: 'debug',
             format: winston.format.combine(
-                winston.format.colorize({all: true}),
-                timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
+                winston.format.colorize({ all: true }),
+                timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
                 logFormat,
             ),
         }),
     );
 }
 
-
-export {logger};
+export { logger };

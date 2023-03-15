@@ -6,7 +6,7 @@ import commonErrors from './middlewares/filter/error/commonError';
 import { CustomError, httpExceptionFilter } from './middlewares/filter';
 import morganMiddleware from './middlewares/logger/morganMiddleware';
 import { logger } from './middlewares/logger/config/logger';
-import connection from './config/db.config';
+import { facilityController } from './controllers/facility.controller';
 
 const app = express();
 
@@ -32,18 +32,13 @@ if (process.env.NODE_ENV === 'development') {
     throw new CustomError(500, commonErrors.configError);
 }
 
+app.use('/api/facility', facilityController);
+
 // 404 에러 핸들러
 app.use((req, res, next) => {
     throw new CustomError(404, commonErrors.resourceNotFoundError);
 });
 
 app.use(httpExceptionFilter);
-
-connection.connect((err) => {
-    if (err) {
-        throw new CustomError(500, commonErrors.dbConnectionError);
-    }
-    logger.info('DB 연결 성공');
-});
 
 export { app };
