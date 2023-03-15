@@ -1,9 +1,8 @@
 import { userRepository } from '../db/repository/User';
 import { CustomError } from '../middlewares/filter';
-import commonErrors from '../middlewares/filter/response/error/commonError';
+import commonErrors from '../middlewares/filter/error/commonError';
 import { randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
-import statusCode from '../middlewares/filter/response/statusCode';
 
 class UserService {
   constructor(userRepository) {
@@ -28,10 +27,7 @@ class UserService {
     const result = await userRepository.findOneById(userDto.id);
 
     if (!result) {
-      throw new CustomError(
-        statusCode.NotFound,
-        commonErrors.resourceNotFoundError,
-      );
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
     }
 
     return result[0];
@@ -43,10 +39,7 @@ class UserService {
     const result = findUser[0];
 
     if (!result) {
-      throw new CustomError(
-        statusCode.NotFound,
-        commonErrors.resourceNotFoundError,
-      );
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
     }
 
     return result;
@@ -58,10 +51,7 @@ class UserService {
     const result = findUser[0];
 
     if (result) {
-      throw new CustomError(
-        statusCode.BadRequest,
-        commonErrors.resourceDuplicationError,
-      );
+      throw new CustomError(404, commonErrors.resourceDuplicationError);
     }
   }
 }

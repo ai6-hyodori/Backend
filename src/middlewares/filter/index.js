@@ -1,3 +1,3 @@
 export * from './httpException.filter';
 
-export * from './customError';
+export * from './error/customError';

@@ -1,6 +1,5 @@
 import { CustomError } from '../filter';
-import commonErrors from '../filter/response/error/commonError';
-import statusCode from '../filter/response/statusCode';
+import commonErrors from '../filter/error/commonError';
 
 const regEmail =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; // 이메일 형식 체크
@@ -12,35 +11,23 @@ const signupvalidator = (req, res, next) => {
   const { email, password, name, phone } = req.body;
 
   if (!email || !password || !name || !phone) {
-    throw new CustomError(statusCode.BadRequest, commonErrors.inputError);
+    throw new CustomError(400, commonErrors.inputError);
   }
 
   if (!regEmail.test(email)) {
-    throw new CustomError(
-      statusCode.BadRequest,
-      commonErrors.requestValidationError,
-    );
+    throw new CustomError(400, commonErrors.requestValidationError);
   }
 
   if (!regPassword.test(password)) {
-    throw new CustomError(
-      statusCode.BadRequest,
-      commonErrors.requestValidationError,
-    );
+    throw new CustomError(400, commonErrors.requestValidationError);
   }
 
   if (!regName.test(name)) {
-    throw new CustomError(
-      statusCode.BadRequest,
-      commonErrors.requestValidationError,
-    );
+    throw new CustomError(400, commonErrors.requestValidationError);
   }
 
   if (!regPhone.test(phone)) {
-    throw new CustomError(
-      statusCode.BadRequest,
-      commonErrors.requestValidationError,
-    );
+    throw new CustomError(400, commonErrors.requestValidationError);
   }
 
   next();
