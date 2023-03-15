@@ -1,4 +1,4 @@
-import { userRepository } from '../db/repository/User';
+import { userRepository } from '../db/repositories/User';
 import { CustomError } from '../middlewares/filter';
 import commonErrors from '../middlewares/filter/error/commonError';
 import { randomUUID } from 'crypto';
@@ -8,6 +8,7 @@ class UserService {
   constructor(userRepository) {
     this.userRepository = userRepository;
   }
+
   async getAll() {
     const users = await this.userRepository.getAll();
     return users;
@@ -58,4 +59,4 @@ class UserService {
 
 const userService = new UserService(userRepository);
 
-export { userService };
+export {userService};
