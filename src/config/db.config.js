@@ -19,7 +19,7 @@ module.exports = {
     async execute(sql, params) {
         try {
             const [rows, fields] = await pool.execute(sql, params);
-            logger.info(`DB execute success : ${sql}, ${params}`);
+            logger.debug(`DB execute success : ${sql}, ${params}`);
             return rows;
         } catch (error) {
             logger.error(error);
