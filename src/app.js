@@ -7,6 +7,7 @@ import { CustomError, httpExceptionFilter } from './middlewares/filter';
 import morganMiddleware from './middlewares/logger/morganMiddleware';
 import { logger } from './middlewares/logger/config/logger';
 import { userController } from './controllers/user.controller';
+import { facilityController } from './controllers/facility.controller';
 
 const app = express();
 
@@ -33,6 +34,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/user', userController);
+app.use('/api/facility', facilityController);
 
 // 404 에러 핸들러
 app.use((req, res, next) => {
