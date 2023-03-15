@@ -1,9 +1,8 @@
 import { Router } from 'express';
-import { userService } from '../services/user.service';
-import {loginValidator} from '../middlewares/validator';
-import {localLogin} from '../middlewares/handler';
-import {jwtGuard} from '../middlewares/guard';
-
+import { userService } from '../services';
+import { loginValidator } from '../middlewares/validator';
+import { localLogin } from '../middlewares/handler';
+import { jwtGuard } from '../middlewares/guard';
 
 const userController = Router();
 
@@ -19,7 +18,7 @@ userController.get('/', async (req, res, next) => {
 userController.get('/:email', jwtGuard, async (req, res, next) => {
   try {
     const dto = req.params;
-    const findedUser = await userService.findOnebyEmail(dto);
+    const findedUser = await userService.findOneByEmail(dto);
     res.status(200).json({ data: findedUser });
   } catch (error) {
     next(error);
