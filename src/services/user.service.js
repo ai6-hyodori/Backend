@@ -3,6 +3,7 @@ import { CustomError } from '../middlewares/filter';
 import commonErrors from '../middlewares/filter/error/commonError';
 import { randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
+import { logger } from '../middlewares/logger/config/logger';
 
 class UserService {
   constructor(userRepository) {
@@ -56,8 +57,10 @@ class UserService {
     }
   }
 
+  // 로직 수정예정 로그 확인바람
   async checkUser(userdto, password) {
-    const user = await userRepository.findOnebyEmail(userdto);
+    const user = await userRepository.findOneByEmail(userdto);
+    logger.debug(user);
     if (!user) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
     }

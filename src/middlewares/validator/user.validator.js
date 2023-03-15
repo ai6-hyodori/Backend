@@ -1,4 +1,5 @@
-import commonErrors, { CustomError } from '../filter';
+import { CustomError } from '../filter';
+import commonErrors from '../filter/error/commonError';
 
 const regEmail =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
