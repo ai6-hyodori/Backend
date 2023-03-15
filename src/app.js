@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import passport from 'passport';
 import commonErrors from './middlewares/filter/error/commonError';
 import { CustomError, httpExceptionFilter } from './middlewares/filter';
 import morganMiddleware from './middlewares/logger/morganMiddleware';
@@ -32,6 +33,10 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   throw new CustomError(500, commonErrors.configError);
 }
+
+require('./passport')();
+app.use(passport.initialize());
+
 
 app.use('/api/user', userController);
 app.use('/api/facility', facilityController);
