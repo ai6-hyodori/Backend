@@ -67,6 +67,20 @@ class UserService {
     const correctPasswordHash = user[0].password;
     3;
   }
+
+  async userLogin(userDto, password) {
+    const user = await userRepository.loginByEmail(userDto);
+
+    if (!user) {
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
+    }
+    const correctPasswordHash = user[0].password;
+    const isCorrectPassword = bcrypt.compare(password, correctPasswordHash);
+    if (!isCorrectPassword) {
+      throw new CustomError(400, commonErrors.inputError);
+    }
+    return user;
+  }
 }
 
 const userService = new UserService(userRepository);
