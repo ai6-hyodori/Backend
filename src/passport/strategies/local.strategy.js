@@ -13,7 +13,7 @@ const config = {
 
 const local = new Strategy(config, async (email, password, done) => {
   try {
-    const user = await userService.checkUser(email, password);
+    const user = await userService.userLogin(email, password);
     const token = jwt.sign(
       { type: 'JWT', userId: user[0].user_id, userEmail: email },
       jwtsecret,
