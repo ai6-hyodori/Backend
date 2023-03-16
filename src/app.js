@@ -37,7 +37,6 @@ if (process.env.NODE_ENV === 'development') {
 require('./passport')();
 app.use(passport.initialize());
 
-
 app.use('/api/user', userController);
 app.use('/api/facility', facilityController);
 

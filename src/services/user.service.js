@@ -84,4 +84,4 @@ class UserService {
 
 const userService = new UserService(userRepository);
 
-export {userService};
+export { userService };
