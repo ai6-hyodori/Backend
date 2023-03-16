@@ -28,10 +28,12 @@ if (process.env.NODE_ENV === 'development') {
       stream: logger.stream,
     }),
   );
+  logger.debug('개발 환경에서 서버를 시작합니다.');
 } else if (process.env.NODE_ENV === 'production') {
   app.use(morganMiddleware);
+  logger.info('배포 환경에서 서버를 시작합니다.');
 } else {
-  throw new CustomError(500, commonErrors.configError);
+  logger.error('NODE_ENV가 존재하지 않습니다.');
 }
 
 require('./passport')();
