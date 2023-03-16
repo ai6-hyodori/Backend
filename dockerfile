@@ -10,6 +10,6 @@ COPY . .
 
 EXPOSE ${PORT}
 
-ENV ASIA/SEOUL
+ENV TZ ASIA/SEOUL
 
 CMD ["npm", "run", "dev"]
