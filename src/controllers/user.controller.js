@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { userService } from '../services';
 import { loginValidator } from '../middlewares/validator';
 import { localLogin } from '../middlewares/handler';
 import { jwtGuard } from '../middlewares/guard';
+import { userService } from '../services/user.service';
 
 const userController = Router();
 

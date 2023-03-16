@@ -57,22 +57,15 @@ class UserService {
     }
   }
 
-  // 로직 수정예정 로그 확인바람
-  async checkUser(userdto, password) {
-    const user = await userRepository.findOneByEmail(userdto);
+  // 로직3 수정예정 로그 확인바람
+  async checkUser(userDto, password) {
+    const user = await userRepository.findOneByEmail(userDto);
     logger.debug(user);
     if (!user) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
     }
     const correctPasswordHash = user[0].password;
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      correctPasswordHash,
-    );
-    if (!isPasswordCorrect) {
-      throw new CustomError(400, commonErrors.inputError);
-    }
-    return user;
+    3;
   }
 }
 
