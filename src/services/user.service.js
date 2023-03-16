@@ -26,7 +26,7 @@ class UserService {
   }
 
   async findOneById(userDto) {
-    const result = await userRepository.findOneById(userDto.id);
+    const result = await userRepository.findById(userDto.id);
 
     if (!result) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
@@ -59,13 +59,12 @@ class UserService {
 
   // 로직3 수정예정 로그 확인바람
   async checkUser(userDto, password) {
-    const user = await userRepository.findOneByEmail(userDto);
+    const user = await userRepository.findByEmail(userDto);
     logger.debug(user);
     if (!user) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
     }
     const correctPasswordHash = user[0].password;
-    3;
   }
 
   async userLogin(userDto, password) {
@@ -85,4 +84,4 @@ class UserService {
 
 const userService = new UserService(userRepository);
 
-export { userService };
+export {userService};

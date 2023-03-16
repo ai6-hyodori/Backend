@@ -5,5 +5,5 @@ import { logger } from './src/middlewares/logger/config/logger';
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
-    logger.info(`${PORT}번 포트로 정상적으로 서버를 시작하였습니다. `);
+  logger.info(`${PORT}번 포트로 정상적으로 서버를 시작하였습니다. `);
 });

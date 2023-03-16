@@ -23,12 +23,12 @@ export class UserRepository {
     ]);
   }
 
-  async findOneById(id) {
+  async findById(id) {
     const sql = `SELECT ${this.responseUser} FROM User WHERE user_id = ?`;
     return execute(sql, [id]);
   }
 
-  async findOneByEmail(email) {
+  async findByEmail(email) {
     const sql = `SELECT ${this.responseUser} FROM User WHERE email = ?`;
     return execute(sql, [email]);
   }
@@ -41,4 +41,4 @@ export class UserRepository {
 
 const userRepository = new UserRepository();
 
-export { userRepository };
+export {userRepository};
