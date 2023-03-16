@@ -49,12 +49,14 @@ class UserService {
   async userLogin(email, password) {
     const user = await this.userRepository.loginByEmail(email);
     const result = user[0];
-
     if (!result) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
     }
     const correctPasswordHash = result.password;
-    const isCorrectPassword = bcrypt.compare(password, correctPasswordHash);
+    const isCorrectPassword = await bcrypt.compare(
+      password,
+      correctPasswordHash,
+    );
     if (!isCorrectPassword) {
       throw new CustomError(400, commonErrors.inputError);
     }
