@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: dockerfile
     ports:
-      - '5000:5000'
+      - '6000:6000'
     environment:
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_USER=${MYSQL_USER}
