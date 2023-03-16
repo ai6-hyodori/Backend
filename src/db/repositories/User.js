@@ -7,9 +7,9 @@ export class UserRepository {
   createUser = `user_id, name, email, password, phone`;
   loginCheckUser = `user_id, email, password`;
 
-  async getAll() {
-    const sql = `SELECT ${this.responseUser} FROM User`;
-    return execute(sql);
+  async findById(userId) {
+    const sql = `SELECT ${this.responseUser} FROM User WHERE user_id = ?`;
+    return execute(sql, [userId]);
   }
 
   async create(userDto) {
@@ -21,11 +21,6 @@ export class UserRepository {
       userDto.password,
       userDto.phone,
     ]);
-  }
-
-  async findById(id) {
-    const sql = `SELECT ${this.responseUser} FROM User WHERE user_id = ?`;
-    return execute(sql, [id]);
   }
 
   async findByEmail(email) {
