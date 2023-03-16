@@ -2,13 +2,15 @@ import { execute } from '../../config/db.config';
 
 export class FacilityRepository {
     // 전체 문화시설 조회
-    async getAll(pageSize, offset, search) {
-        let sql;
-        if (!search) {
-            sql = `SELECT * FROM Facility LIMIT ${pageSize} OFFSET ${offset}`;
-        } else {
-            sql = `SELECT * FROM Facility WHERE fac_name LIKE "%${search}%" LIMIT ${pageSize} OFFSET ${offset}`;
-        }
+    async getAll(pageSize, offset) {
+        const sql = `SELECT * FROM Facility LIMIT ${pageSize} OFFSET ${offset}`;
+
+        return execute(sql);
+    }
+
+    // 문화시설 이름 검색을 통한 조회
+    async findBySearch(pageSize, offset, query) {
+        const sql = `SELECT * FROM Facility WHERE fac_name LIKE "%${query}%" LIMIT ${pageSize} OFFSET ${offset}`;
 
         return execute(sql);
     }

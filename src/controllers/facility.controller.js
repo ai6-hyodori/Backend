@@ -10,9 +10,26 @@ facilityController.get('/', async(req, res, next) => {
         const pageSize = parseInt(req.query.pageSize || '10');
         const offset = (page - 1) * pageSize;
 
-        const search = req.query.search;
+        const facilities = await facilityService.findAll(pageSize, offset);
+        res.status(200).json({ data: facilities });
+    } catch (error) {
+        next(error);
+    }
+});
 
-        const facilities = await facilityService.findAll(pageSize, offset, search);
+// 문화시설 이름 검색을 통한 조회
+facilityController.get('/search', async(req, res, next) => {
+    try {
+        const page = parseInt(req.query.page || '1');
+        const pageSize = parseInt(req.query.pageSize || '10');
+        const query = req.query.query;
+        const offset = (page - 1) * pageSize;
+
+        const facilities = await facilityService.findBySearch(
+            pageSize,
+            offset,
+            query,
+        );
         res.status(200).json({ data: facilities });
     } catch (error) {
         next(error);
