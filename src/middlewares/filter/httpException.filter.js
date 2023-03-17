@@ -3,12 +3,12 @@ import { logger } from '../logger/config/logger';
 
 const httpExceptionFilter = (error, req, res, next) => {
   if (!error.status) {
-    res.status(500).send({
-      error: error.message,
+    res.status(500).json({
+      message: error.message,
     });
   }
   res.status(error.status).json({
-    error: error.message,
+    message: error.message,
   });
   logger.error(`${error.status} ${error.message}`);
 };
