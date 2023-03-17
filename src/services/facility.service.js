@@ -14,7 +14,7 @@ class FacilityService {
         return facilities;
     }
 
-    // 문화시설 이름 검색을 통한 조회
+    // 문화시설 조회 (시설 이름 검색)
     async findBySearch(pageSize, offset, query) {
         const facilities = await facilityRepository.findBySearch(
             pageSize,
@@ -22,6 +22,17 @@ class FacilityService {
             query,
         );
 
+        return facilities;
+    }
+
+    // 문화시설 조회 (자치구,  주제분류 필터링)
+    async findByFilter(pageSize, offset, district, subjcode) {
+        const facilities = await facilityRepository.findByFilter(
+            pageSize,
+            offset,
+            district,
+            subjcode,
+        );
         return facilities;
     }
 
