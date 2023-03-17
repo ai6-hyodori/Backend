@@ -5,7 +5,7 @@ const localLogin = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    return res.status(200).json(loginData);
+    return res.status(200).json({ data: loginData });
   })(req, res, next);
 };
 
