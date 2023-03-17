@@ -30,7 +30,7 @@ facilityController.get('/search', async (req, res, next) => {
       offset,
       query,
     );
-    res.status(200).json({data: facilities});
+    res.status(200).json({ data: facilities });
   } catch (error) {
     next(error);
   }
@@ -51,7 +51,7 @@ facilityController.get('/filter', async (req, res, next) => {
       district,
       subjcode,
     );
-    res.status(200).json({data: facilities});
+    res.status(200).json({ data: facilities });
   } catch (error) {
     next(error);
   }
@@ -68,4 +68,4 @@ facilityController.get('/:facility_id', async (req, res, next) => {
   }
 });
 
-export { facilityController };
+export {facilityController};
