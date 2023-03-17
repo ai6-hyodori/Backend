@@ -51,7 +51,7 @@ facilityController.get('/filter', async(req, res, next) => {
             district,
             subjcode,
         );
-        res.status(200).json(facilities);
+        res.status(200).json({ data: facilities });
     } catch (error) {
         next(error);
     }
