@@ -60,12 +60,12 @@ facilityController.get('/filter', async (req, res, next) => {
 // 특정 문화시설 조회
 facilityController.get('/:facility_id', async (req, res, next) => {
   try {
-    const {facility_id} = req.params;
+    const { facility_id } = req.params;
     const facility = await facilityService.findOneById(facility_id);
-    res.status(200).json({data: facility});
+    res.status(200).json({ data: facility });
   } catch (error) {
     next(error);
   }
 });
 
-export {facilityController};
+export { facilityController };
