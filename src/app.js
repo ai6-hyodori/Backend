@@ -10,6 +10,7 @@ import { logger } from './middlewares/logger/config/logger';
 import { userController } from './controllers/user.controller';
 import { facilityController } from './controllers/facility.controller';
 import { imageController } from './controllers/image.controller';
+import { challengeController } from './controllers/challenge.controller';
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use(passport.initialize());
 app.use('/api/user', userController);
 app.use('/api/facility', facilityController);
 app.use('/api/image', imageController);
+app.use('/api/challenge', challengeController);
 
 // 404 에러 핸들러
 app.use((req, res, next) => {
