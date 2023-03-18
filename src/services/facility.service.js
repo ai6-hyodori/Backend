@@ -15,21 +15,15 @@ class FacilityService {
   }
 
   // 문화시설 조회 (시설 이름 검색)
-  async findBySearch(pageSize, offset, query) {
-    const facilities = await facilityRepository.findBySearch(
-      pageSize,
-      offset,
-      query,
-    );
+  async findBySearch(query) {
+    const facilities = await facilityRepository.findBySearch(query);
 
     return facilities;
   }
 
   // 문화시설 조회 (자치구,  주제분류 필터링)
-  async findByFilter(pageSize, offset, district, subjcode) {
+  async findByFilter(district, subjcode) {
     const facilities = await facilityRepository.findByFilter(
-      pageSize,
-      offset,
       district,
       subjcode,
     );
