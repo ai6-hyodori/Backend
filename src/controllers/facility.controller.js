@@ -11,7 +11,9 @@ facilityController.get('/', async (req, res, next) => {
     const offset = (page - 1) * pageSize;
 
     const facilities = await facilityService.findAll(pageSize, offset);
-    res.status(200).json({ data: facilities });
+
+    const maxPage = Math.ceil(facilities.maxResult[0]['COUNT(*)'] / pageSize);
+    res.status(200).json({ data: facilities.result, maxPage });
   } catch (error) {
     next(error);
   }
@@ -20,16 +22,9 @@ facilityController.get('/', async (req, res, next) => {
 // 문화시설 조회 (시설 이름 검색)
 facilityController.get('/search', async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page || '1');
-    const pageSize = parseInt(req.query.pageSize || '10');
     const query = req.query.query;
-    const offset = (page - 1) * pageSize;
 
-    const facilities = await facilityService.findBySearch(
-      pageSize,
-      offset,
-      query,
-    );
+    const facilities = await facilityService.findBySearch(query);
     res.status(200).json({ data: facilities });
   } catch (error) {
     next(error);
@@ -39,18 +34,10 @@ facilityController.get('/search', async (req, res, next) => {
 // 문화시설 조회 (자치구,  주제분류 필터링)
 facilityController.get('/filter', async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page || '1');
-    const pageSize = parseInt(req.query.pageSize || '10');
     const district = req.query.district || '전체';
     const subjcode = req.query.subjcode || '전체';
-    const offset = (page - 1) * pageSize;
 
-    const facilities = await facilityService.findByFilter(
-      pageSize,
-      offset,
-      district,
-      subjcode,
-    );
+    const facilities = await facilityService.findByFilter(district, subjcode);
     res.status(200).json({ data: facilities });
   } catch (error) {
     next(error);
