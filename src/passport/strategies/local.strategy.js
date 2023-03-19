@@ -2,8 +2,6 @@ import { Strategy } from 'passport-local';
 import jwt from 'jsonwebtoken';
 import { userService } from '../../services';
 
-require('dotenv').config();
-
 const jwtsecret = process.env.JWTSECRET;
 
 const config = {

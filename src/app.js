@@ -10,7 +10,8 @@ import { logger } from './middlewares/logger/config/logger';
 import { userController } from './controllers/user.controller';
 import { facilityController } from './controllers/facility.controller';
 import { imageController } from './controllers/image.controller';
-import { challengeController } from './controllers/challenge.controller';
+import { challengeController } from './controllers';
+import 'dotenv/config';
 
 const app = express();
 

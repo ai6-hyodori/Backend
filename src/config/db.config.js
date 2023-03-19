@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const mysql = require('mysql2/promise');
 const { logger } = require('../middlewares/logger/config/logger');
 
@@ -22,7 +20,7 @@ module.exports = {
       logger.debug(`DB execute success : ${sql}, ${params}`);
       return rows;
     } catch (error) {
-      logger.error(error);
+      logger.error(`DB execute error :  ${error}`);
     }
   },
 };
