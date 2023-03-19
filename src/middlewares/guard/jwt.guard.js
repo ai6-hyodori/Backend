@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-import { CustomError } from '../filter';
 import commonErrors from '../filter/error/commonError';
+import { logger } from '../logger/config/logger';
 
 const jwtGuard = (req, res, next) => {
   try {
     const userToken = req.headers.authorization.split(' ')[1];
 
-    if (!userToken || userToken === 'null') {
-      new CustomError(401, commonErrors.authenticationError);
+    if (!userToken || userToken === 'null' || userToken === 'undefined') {
+      throw new Error("Can't find token");
     }
 
     const jwtsecret = process.env.JWTSECRET;
@@ -16,7 +16,8 @@ const jwtGuard = (req, res, next) => {
 
     next();
   } catch (error) {
-    throw new CustomError(401, commonErrors.authenticationError);
+    logger.error(`jwtGuard Error: ${error}`);
+    res.status(401).json({ message: commonErrors.authenticationError });
   }
 };
 
