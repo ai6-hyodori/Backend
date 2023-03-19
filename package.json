@@ -1,5 +1,8 @@
 {
   "name": "hyodori",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "author": "12team",
   "version": "0.0.1",
   "description": "",

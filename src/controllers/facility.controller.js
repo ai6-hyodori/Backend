@@ -6,14 +6,17 @@ const facilityController = Router();
 // 전체 문화시설 조회 (페이징)
 facilityController.get('/', async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page || '1');
-    const pageSize = parseInt(req.query.pageSize || '10');
+    const page = parseInt(req.query.page ?? '1');
+    const pageSize = parseInt(req.query.pageSize ?? '10');
     const offset = (page - 1) * pageSize;
 
     const facilities = await facilityService.findAll(pageSize, offset);
 
-    const maxPage = Math.ceil(facilities.maxResult[0]['COUNT(*)'] / pageSize);
-    res.status(200).json({ data: facilities.result, maxPage });
+    res.status(200).json({
+      data: facilities.result,
+      maxPage: facilities.maxPage,
+      totalCount: facilities.totalCount,
+    });
   } catch (error) {
     next(error);
   }
@@ -34,8 +37,8 @@ facilityController.get('/search', async (req, res, next) => {
 // 문화시설 조회 (자치구,  주제분류 필터링)
 facilityController.get('/filter', async (req, res, next) => {
   try {
-    const district = req.query.district || '전체';
-    const subjcode = req.query.subjcode || '전체';
+    const district = req.query.district ?? '전체';
+    const subjcode = req.query.subjcode ?? '전체';
 
     const facilities = await facilityService.findByFilter(district, subjcode);
     res.status(200).json({ data: facilities });

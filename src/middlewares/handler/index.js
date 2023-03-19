@@ -1,2 +1,2 @@
 export * from './login.handler';
-export * from './image.hander';
+export * from './image.handler';

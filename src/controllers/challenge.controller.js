@@ -1,11 +1,7 @@
 import { Router } from 'express';
-import commonErrors from '../middlewares/filter';
-import { CustomError } from '../middlewares/filter';
 import { challengeService } from '../services';
-import { upload } from '../middlewares/handler/image.hander';
+import { upload } from '../middlewares/handler';
 import { bucket, region } from '../config/aws.config';
-
-import { logger } from '../middlewares/logger/config/logger';
 
 const challengeController = Router();
 

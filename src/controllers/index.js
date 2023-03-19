@@ -1,3 +1,6 @@
-// export * from './facility.controller';
+export * from './facility.controller';
 
-export * from './challenges.controller';
+export * from './challenge.controller';
+export * from './image.controller';
+
+export * from './user.controller';

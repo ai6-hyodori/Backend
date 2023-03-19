@@ -2,15 +2,12 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import path from 'path';
 import { S3Client } from '@aws-sdk/client-s3';
-import dotenv from 'dotenv';
 import {
-  secretAccessKey,
+  accessKeyId,
   bucket,
   region,
-  accessKeyId,
+  secretAccessKey,
 } from '../../config/aws.config';
-
-dotenv.config({ path: './.env' });
 
 const s3 = new S3Client({
   credentials: {

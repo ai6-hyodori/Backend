@@ -10,7 +10,7 @@ class UserService {
   }
 
   async findOneById(userId) {
-    const users = await userRepository.findById(userId);
+    const users = await this.userRepository.findById(userId);
     const result = users[0];
     return result;
   }
@@ -21,14 +21,14 @@ class UserService {
     userDto.id = randomUUID();
     userDto.password = await bcrypt.hash(userDto.password, 10);
 
-    await userRepository.create(userDto);
+    await this.userRepository.create(userDto);
     return await this.findOneByEmail(userDto.email);
   }
 
   async findOneByEmail(email) {
-    const findUser = await userRepository.findByEmail(email);
+    const fondUser = await this.userRepository.findByEmail(email);
 
-    const result = findUser[0];
+    const result = fondUser[0];
 
     if (!result) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
@@ -38,8 +38,8 @@ class UserService {
   }
 
   async emailCheck(email) {
-    const findUser = await userRepository.findByEmail(email);
-    const result = findUser[0];
+    const fondUser = await this.userRepository.findByEmail(email);
+    const result = fondUser[0];
 
     if (result) {
       throw new CustomError(404, commonErrors.resourceDuplicationError);
@@ -47,7 +47,7 @@ class UserService {
   }
 
   async userLogin(email, password) {
-    const user = await userRepository.loginByEmail(email);
+    const user = await this.userRepository.loginByEmail(email);
     const result = user[0];
     if (!result) {
       throw new CustomError(404, commonErrors.resourceNotFoundError);
