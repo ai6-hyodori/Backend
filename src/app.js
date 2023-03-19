@@ -7,10 +7,12 @@ import commonErrors from './middlewares/filter/error/commonError';
 import { CustomError, httpExceptionFilter } from './middlewares/filter';
 import morganMiddleware from './middlewares/logger/morganMiddleware';
 import { logger } from './middlewares/logger/config/logger';
-import { userController } from './controllers/user.controller';
-import { facilityController } from './controllers/facility.controller';
-import { imageController } from './controllers/image.controller';
-import { challengeController } from './controllers';
+import {
+  challengeController,
+  facilityController,
+  imageController,
+  userController,
+} from './controllers';
 import 'dotenv/config';
 
 const app = express();

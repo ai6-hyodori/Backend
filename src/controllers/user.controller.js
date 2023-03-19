@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { loginValidator, signupvalidator } from '../middlewares/validator';
 import { localLogin } from '../middlewares/handler';
 import { jwtGuard } from '../middlewares/guard';
-import { userService } from '../services/user.service';
+import { userService } from '../services';
 
 const userController = Router();
 
