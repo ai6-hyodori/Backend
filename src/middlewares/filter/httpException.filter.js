@@ -6,6 +6,7 @@ const httpExceptionFilter = (error, req, res, next) => {
     res.status(500).json({
       message: error.message,
     });
+    return;
   }
   res.status(error.status).json({
     message: error.message,
