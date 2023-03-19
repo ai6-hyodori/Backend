@@ -6,7 +6,7 @@ class ChallengeService {
   }
 
   async create(dto) {
-    await challengeRepository.create(dto);
+    await this.challengeRepository.create(dto);
   }
 }
 
