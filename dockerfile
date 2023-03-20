@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE ${PORT}
+
+ENV TZ ASIA/SEOUL
 
 CMD ["npm", "run", "dev"]
