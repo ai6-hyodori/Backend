@@ -9,8 +9,8 @@ export class FacilityRepository {
     const max = `SELECT COUNT(*) FROM Facility`;
 
     const [result, maxResult] = await Promise.all([execute(sql), execute(max)]);
-    const maxPage = Math.ceil(maxResult[0]['COUNT(*)'] / pageSize);
     const totalCount = maxResult[0]['COUNT(*)'];
+    const maxPage = Math.ceil(totalCount / pageSize);
 
     return { result, maxPage, totalCount };
   }
