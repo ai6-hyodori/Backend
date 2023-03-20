@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import commonErrors from '../filter/error/commonError';
 import { logger } from '../logger/config/logger';
 
-const jwtGuard = (req, res, next) => {
+const jwtGuard = async (req, res, next) => {
   try {
     const userToken = req.headers.authorization.split(' ')[1];
 
@@ -11,7 +11,7 @@ const jwtGuard = (req, res, next) => {
     }
 
     const jwtsecret = process.env.JWTSECRET;
-    const jwtDecoded = jwt.verify(userToken, jwtsecret);
+    const jwtDecoded = await jwt.verify(userToken, jwtsecret);
     req.currentUserId = jwtDecoded.userId;
 
     next();
