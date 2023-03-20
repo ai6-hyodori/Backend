@@ -27,21 +27,67 @@ class ChallengeService {
     await challengeRepository.deleteOneById(challenge_id);
   }
 
-  async findProgressing(dateString) {
-    const progressingChallenge = await challengeRepository.findProgressing(
-      dateString,
-    );
-    return progressingChallenge;
+  async findByChallengeStatus({ status, dateString }) {
+    if (status === undefined) {
+      throw new CustomError(404, commonErrors.requestValidationError);
+    } else if (status === 'progressing') {
+      const progressingChallenge = await challengeRepository.findProgressing(
+        dateString,
+      );
+      return progressingChallenge;
+    } else if (status === 'recruiting') {
+      const recruitingChallenge = await challengeRepository.findRecruiting(
+        dateString,
+      );
+      return recruitingChallenge;
+    } else if (status === 'ended') {
+      const endedChallenge = await challengeRepository.findEnded(dateString);
+      return endedChallenge;
+    }
   }
-  async findRecruiting(dateString) {
-    const recruitingChallenge = await challengeRepository.findRecruiting(
-      dateString,
+
+  // async findProgressing(dateString) {
+  //   const progressingChallenge = await challengeRepository.findProgressing(
+  //     dateString,
+  //   );
+  //   return progressingChallenge;
+  // }
+  // async findRecruiting(dateString) {
+  //   const recruitingChallenge = await challengeRepository.findRecruiting(
+  //     dateString,
+  //   );
+  //   return recruitingChallenge;
+  // }
+  // async findEnded(dateString) {
+  //   const endedChallenge = await challengeRepository.findEnded(dateString);
+  //   return endedChallenge;
+  // }
+
+  async join(challenge_id, userId) {
+    const alreadyJoined = await challengeRepository.findExistingParticipation(
+      challenge_id,
+      userId,
     );
-    return recruitingChallenge;
+    if (alreadyJoined[0]) {
+      throw new CustomError(400, commonErrors.requestValidationError);
+    } else {
+      await challengeRepository.join(challenge_id, userId);
+    }
   }
-  async findEnded(dateString) {
-    const endedChallenge = await challengeRepository.findEnded(dateString);
-    return endedChallenge;
+  async withdraw(challenge_id, userId) {
+    const alreadyJoined = await challengeRepository.findExistingParticipation(
+      challenge_id,
+      userId,
+    );
+    if (!alreadyJoined[0]) {
+      throw new CustomError(400, commonErrors.requestValidationError);
+    } else {
+      await challengeRepository.withdraw(challenge_id, userId);
+    }
+  }
+  async findMyChallenge(userId) {
+    const myChallenge = await challengeRepository.findMyChallenge(userId);
+    return myChallenge;
   }
 }
 

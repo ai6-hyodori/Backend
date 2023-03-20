@@ -65,6 +65,7 @@ class ChallengeRepository {
     SET isDeleted = 1
     WHERE challenge_id = ?`;
     await execute(sql, [challenge_id]);
+    // 이때 나의 챌린지도 같이 지워지게 sql 쿼리 날려야함
   }
 
   async findProgressing(dateString) {
@@ -89,6 +90,30 @@ class ChallengeRepository {
     AND isDeleted = 0`;
     const endedChallenge = await execute(sql, [dateString]);
     return endedChallenge;
+  }
+  async findExistingParticipation(challenge_id, userId) {
+    const sql = `SELECT * FROM Challenge_user
+    WHERE challenge_id = ?
+    AND user_id = ?`;
+    return execute(sql, [challenge_id, userId]);
+  }
+  async join(challenge_id, userId) {
+    const sql = `INSERT INTO Challenge_user
+    VALUES(?, ?)`;
+    return execute(sql, [challenge_id, userId]);
+  }
+  async withdraw(challenge_id, userId) {
+    const sql = `DELETE FROM Challenge_user
+    WHERE challenge_id = ?
+    AND user_id = ?`;
+    return execute(sql, [challenge_id, userId]);
+  }
+  async findMyChallenge(userId) {
+    const sql = `SELECT * FROM Challenge
+    INNER JOIN Challenge_user
+    ON Challenge.challenge_id = Challenge_user.challenge_id
+    WHERE user_id =?`;
+    return execute(sql, [userId]);
   }
 }
 
