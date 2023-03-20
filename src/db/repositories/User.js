@@ -32,6 +32,24 @@ export class UserRepository {
     const sql = `SELECT ${this.loginCheckUser} FROM User WHERE email =?`;
     return execute(sql, [email]);
   }
+
+  async createFacility(userid, facilityid) {
+    const sql = `INSERT INTO User_Facility(user_id, facility_id) VALUES (?, ?)`;
+    await execute(sql, [userid, facilityid]);
+  }
+
+  async findFacility(userid) {
+    const sql = `select F.facility_id, F.fac_name, F.district, F.main_img
+    from User_Facility uf
+    left outer join Facility F on uf.facility_id = F.facility_id
+    WHERE uf.user_id = "${userid}"`;
+    return execute(sql);
+  }
+
+  async deleteFacility(userid, facilityid) {
+    const sql = `DELETE FROM User_Facility WHERE user_id = ? AND facility_id = ?`;
+    await execute(sql, [userid, facilityid]);
+  }
 }
 
 const userRepository = new UserRepository();

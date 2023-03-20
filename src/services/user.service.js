@@ -62,6 +62,21 @@ class UserService {
     }
     return result;
   }
+
+  // 문화시설 즐겨찾기 등록
+  async facilitySignup(userId, facilityId) {
+    await this.userRepository.createFacility(userId, facilityId);
+  }
+
+  // 문화시설 찾기
+  async findFacility(userId) {
+    const facility = await this.userRepository.findFacility(userId);
+    return facility;
+  }
+
+  async deleteFacility(userId, facilityId) {
+    await this.userRepository.deleteFacility(userId, facilityId);
+  }
 }
 
 const userService = new UserService(userRepository);

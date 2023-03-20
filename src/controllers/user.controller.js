@@ -30,4 +30,46 @@ userController.post('/signup', signupvalidator, async (req, res, next) => {
 
 userController.post('/login', loginValidator, localLogin);
 
+//문화 시설 등록
+userController.post(
+  '/facility/:facilityid',
+  jwtGuard,
+  async (req, res, next) => {
+    try {
+      const { facilityid } = req.params;
+      const userId = req.currentUserId;
+      await userService.facilitySignup(userId, facilityid);
+      res.sendStatus(201);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+userController.get('/facility', jwtGuard, async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    console.log(userId);
+    const facilities = await userService.findFacility(userId);
+    res.status(200).json({ data: facilities });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userController.delete(
+  '/facility/:facilityid',
+  jwtGuard,
+  async (req, res, next) => {
+    try {
+      const userId = req.currentUserId;
+      const { facilityid } = req.params;
+      await userService.deleteFacility(userId, facilityid);
+      res.sendStatus(204);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 export { userController };
