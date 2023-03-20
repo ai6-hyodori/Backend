@@ -46,23 +46,6 @@ class ChallengeService {
     }
   }
 
-  // async findProgressing(dateString) {
-  //   const progressingChallenge = await challengeRepository.findProgressing(
-  //     dateString,
-  //   );
-  //   return progressingChallenge;
-  // }
-  // async findRecruiting(dateString) {
-  //   const recruitingChallenge = await challengeRepository.findRecruiting(
-  //     dateString,
-  //   );
-  //   return recruitingChallenge;
-  // }
-  // async findEnded(dateString) {
-  //   const endedChallenge = await challengeRepository.findEnded(dateString);
-  //   return endedChallenge;
-  // }
-
   async join(challenge_id, userId) {
     const alreadyJoined = await challengeRepository.findExistingParticipation(
       challenge_id,
