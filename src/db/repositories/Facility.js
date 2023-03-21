@@ -25,7 +25,7 @@ export class FacilityRepository {
   // 문화시설 조회 (시설 이름 검색 + 페이지네이션)
   async findBySearchPage(query, pageSize, offset) {
     const sql = `SELECT ${this.responseData} FROM Facility WHERE fac_name LIKE "%${query}%" LIMIT ${pageSize} OFFSET ${offset}`;
-    const max = `SELECT COUNT(*) FROM Facility`;
+    const max = `SELECT COUNT(*) FROM Facility WHERE fac_name LIKE "%${query}%"`;
 
     const [result, maxResult] = await Promise.all([execute(sql), execute(max)]);
     const totalCount = maxResult[0]['COUNT(*)'];

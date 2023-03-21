@@ -47,6 +47,7 @@ facilityController.get('/list/search', async (req, res, next) => {
       pageSize,
       offset,
     );
+
     res.status(200).json({
       data: facilities.result,
       maxPage: facilities.maxPage,
