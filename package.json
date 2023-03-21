@@ -8,8 +8,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:prod": "cross-env NODE_ENV=production babel-node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon --watch ./ --exec babel-node index.js"
+    "start": "npm run build && node dist/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon --watch ./ --exec babel-node index.js",
+    "build": "babel src -d dist"
   },
   "keywords": [],
   "license": "ISC",
