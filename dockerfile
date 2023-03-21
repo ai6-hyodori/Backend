@@ -35,4 +35,6 @@ EXPOSE ${PORT}
 
 ENV TZ ASIA/SEOUL
 
+ENV NODE_ENV production
+
 CMD ["node", "dist/app.js"]
