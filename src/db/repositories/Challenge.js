@@ -26,6 +26,11 @@ class ChallengeRepository {
     ]);
   }
 
+  async findAll() {
+    const sql = `SELECT * FROM Challenge`;
+    const allChallengeData = await execute(sql);
+    return allChallengeData;
+  }
   async findOneById(dto) {
     const sql = `SELECT * FROM Challenge WHERE challenge_id = ?`;
     const oneChallengeData = await execute(sql, [dto]);
