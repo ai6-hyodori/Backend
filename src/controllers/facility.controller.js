@@ -64,8 +64,6 @@ facilityController.get('/filter', async (req, res, next) => {
     const district = req.query.district ?? '전체';
     const subjcode = req.query.subjcode ?? '전체';
 
-    console.log(district, subjcode);
-
     const facilities = await facilityService.findByFilter(district, subjcode);
     res.status(200).json({ data: facilities });
   } catch (error) {
