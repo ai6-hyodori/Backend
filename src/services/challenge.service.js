@@ -9,6 +9,10 @@ class ChallengeService {
 
   async create(dto) {
     await this.challengeRepository.create(dto);
+    const createdChallenge = await this.challengeRepository.findByTitle(
+      dto.title,
+    );
+    await this.join(createdChallenge[0].challenge_id, dto.userId);
   }
 
   async findAll() {
@@ -27,11 +31,21 @@ class ChallengeService {
   }
 
   async updateOneById({ challenge_id, challengeDto }) {
-    await challengeRepository.updateOneById({ challenge_id, challengeDto });
+    const result = await challengeRepository.findOneById(challenge_id);
+    if (result[0].user_id === challengeDto.userId) {
+      await challengeRepository.updateOneById({ challenge_id, challengeDto });
+    } else {
+      throw new CustomError(404, commonErrors.authenticationError);
+    }
   }
 
-  async deleteOneById(challenge_id) {
-    await challengeRepository.deleteOneById(challenge_id);
+  async deleteOneById({ challenge_id, challengeDto }) {
+    const result = await challengeRepository.findOneById(challenge_id);
+    if (result[0].user_id === challengeDto.userId) {
+      await challengeRepository.deleteOneById(challenge_id);
+    } else {
+      throw new CustomError(404, commonErrors.authenticationError);
+    }
   }
 
   async findByChallengeStatus({ status, dateString }) {

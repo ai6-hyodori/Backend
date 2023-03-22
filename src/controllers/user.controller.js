@@ -17,6 +17,18 @@ userController.get('/', jwtGuard, async (req, res, next) => {
   }
 });
 
+// 유저 정보 변경
+userController.put('/', jwtGuard, signupvalidator, async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    req.body.id = userId;
+    const users = await userService.change(req.body);
+    res.status(200).json({ data: users });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 회원가입
 userController.post('/signup', signupvalidator, async (req, res, next) => {
   try {

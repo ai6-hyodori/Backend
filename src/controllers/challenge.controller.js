@@ -13,7 +13,7 @@ const month = ('0' + (today.getMonth() + 1)).slice(-2);
 const day = ('0' + today.getDate()).slice(-2);
 const dateString = year + '-' + month + '-' + day;
 
-// 챌린지 참여하기 v
+// 챌린지 참여하기 vv
 challengeController.post('/participation', jwtGuard, async (req, res, next) => {
   try {
     const userId = req.currentUserId;
@@ -25,7 +25,7 @@ challengeController.post('/participation', jwtGuard, async (req, res, next) => {
   }
 });
 
-//챌린지 참여 취소하기 v
+//챌린지 참여 취소하기 vv
 challengeController.delete(
   '/participation',
   jwtGuard,
@@ -41,7 +41,7 @@ challengeController.delete(
   },
 );
 
-//나의 챌린지 조회하기 v
+//나의 챌린지 조회하기 vv
 challengeController.get('/participation', jwtGuard, async (req, res, next) => {
   try {
     const userId = req.currentUserId;
@@ -67,7 +67,7 @@ challengeController.get('/status', async (req, res, next) => {
   }
 });
 
-//챌린지 생성하기 v
+//챌린지 생성하기 vv
 challengeController.post(
   '/',
   jwtGuard,
@@ -75,6 +75,8 @@ challengeController.post(
   async (req, res, next) => {
     try {
       const challengeDto = req.body;
+      const userId = req.currentUserId;
+      challengeDto['userId'] = userId;
       const imagePath = `${aws_url}${req.file.key}`;
       challengeDto['imagePath'] = imagePath;
       await challengeService.create(challengeDto);
@@ -106,16 +108,18 @@ challengeController.get('/:challenge_id', async (req, res, next) => {
 });
 
 //특정 챌린지 수정하기(challenge_id)
-// 작성자가 수정할 수 있도록 기능 추가하기
+// 작성자가 수정할 수 있도록 기능 추가하기 vv
 challengeController.put(
   '/:challenge_id',
   jwtGuard,
   upload.single('image'),
   async (req, res, next) => {
     try {
+      const userId = req.currentUserId;
       const { challenge_id } = req.params;
       const challengeDto = req.body;
       const imagePath = `${aws_url}${req.file.key}`;
+      challengeDto['userId'] = userId;
       challengeDto['imagePath'] = imagePath;
       // challengeDto['challenge_id'] = challenge_id;
 
@@ -128,15 +132,18 @@ challengeController.put(
 );
 
 //특정 챌린지 삭제하기(challenge_id)
-// 작성자가 수정할 수 있도록 기능 추가하기
+// 작성자가 수정할 수 있도록 기능 추가하기 vv
 
 challengeController.delete(
   '/:challenge_id',
   jwtGuard,
   async (req, res, next) => {
     try {
+      const userId = req.currentUserId;
       const { challenge_id } = req.params;
-      await challengeService.deleteOneById(challenge_id);
+      const challengeDto = req.body;
+      challengeDto['userId'] = userId;
+      await challengeService.deleteOneById({ challenge_id, challengeDto });
       res.status(200).send('deleted ');
     } catch (error) {
       next(error);

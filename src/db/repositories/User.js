@@ -22,6 +22,29 @@ export class UserRepository {
       userDto.phone,
     ]);
   }
+  async changeWithOutId(userDto) {
+    const sql = `UPDATE User SET
+    name=?, password=?, phone=?
+    WHERE user_id = ?`;
+    await execute(sql, [
+      userDto.name,
+      userDto.password,
+      userDto.phone,
+      userDto.id,
+    ]);
+  }
+  async changeWithId(userDto) {
+    const sql = `UPDATE User SET
+    name=?, password=?, phone=?, email=?
+    WHERE user_id = ?`;
+    await execute(sql, [
+      userDto.name,
+      userDto.password,
+      userDto.phone,
+      userDto.email,
+      userDto.id,
+    ]);
+  }
 
   async findByEmail(email) {
     const sql = `SELECT ${this.responseUser} FROM User WHERE email = ?`;

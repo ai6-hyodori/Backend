@@ -24,6 +24,18 @@ class UserService {
     await this.userRepository.create(userDto);
     return await this.findOneByEmail(userDto.email);
   }
+  async change(userDto) {
+    userDto.password = await bcrypt.hash(userDto.password, 10);
+    const oldInfo = await this.findOneById(userDto.id);
+    if (oldInfo.email === userDto.email) {
+      await this.userRepository.changeWithOutId(userDto);
+      return await this.findOneByEmail(userDto.email);
+    } else if (oldInfo.email !== userDto.email) {
+      await this.emailCheck(userDto.email);
+      await this.userRepository.changeWithId(userDto);
+      return await this.findOneByEmail(userDto.email);
+    }
+  }
 
   async findOneByEmail(email) {
     const fondUser = await this.userRepository.findByEmail(email);

@@ -11,9 +11,10 @@ class ChallengeRepository {
             recruit_start, 
             recruit_end, 
             progress_start, 
-            progress_end
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    await execute(sql, [
+            progress_end,
+            user_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
+    const createdData = await execute(sql, [
       dto.title,
       dto.description,
       dto.content,
@@ -23,7 +24,15 @@ class ChallengeRepository {
       dto.recruit_end,
       dto.progress_start,
       dto.progress_end,
+      dto.userId,
     ]);
+  }
+
+  async findByTitle(dto) {
+    const sql = `SELECT * FROM Challenge
+    WHERE title = ?`;
+    const result = await execute(sql, [dto]);
+    return result;
   }
 
   async findAll() {
@@ -70,7 +79,10 @@ class ChallengeRepository {
     SET isDeleted = 1
     WHERE challenge_id = ?`;
     await execute(sql, [challenge_id]);
-    // 이때 나의 챌린지도 같이 지워지게 sql 쿼리 날려야함
+    const sql2 = `DELETE FROM Challenge_user
+    WHERE challenge_id = ?`;
+    await execute(sql2, [challenge_id]);
+    // 이때 나의 챌린지도 같이 지워지게 sql 쿼리 날려야함 vv
   }
 
   async findProgressing(dateString) {
@@ -117,7 +129,7 @@ class ChallengeRepository {
     const sql = `SELECT * FROM Challenge
     INNER JOIN Challenge_user
     ON Challenge.challenge_id = Challenge_user.challenge_id
-    WHERE user_id =?`;
+    WHERE Challenge.user_id =?`;
     return execute(sql, [userId]);
   }
 }
