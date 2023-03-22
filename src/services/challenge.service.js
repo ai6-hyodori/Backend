@@ -11,6 +11,13 @@ class ChallengeService {
     await this.challengeRepository.create(dto);
   }
 
+  async findAll() {
+    const allChallengeData = await challengeRepository.findAll();
+    if (Object.keys(allChallengeData).length == 0) {
+      throw new CustomError(404, commonErrors.resourceNotFoundError);
+    }
+    return allChallengeData;
+  }
   async findOneById(dto) {
     const oneChallengeData = await challengeRepository.findOneById(dto);
     if (Object.keys(oneChallengeData).length == 0) {
@@ -45,23 +52,6 @@ class ChallengeService {
       return endedChallenge;
     }
   }
-
-  // async findProgressing(dateString) {
-  //   const progressingChallenge = await challengeRepository.findProgressing(
-  //     dateString,
-  //   );
-  //   return progressingChallenge;
-  // }
-  // async findRecruiting(dateString) {
-  //   const recruitingChallenge = await challengeRepository.findRecruiting(
-  //     dateString,
-  //   );
-  //   return recruitingChallenge;
-  // }
-  // async findEnded(dateString) {
-  //   const endedChallenge = await challengeRepository.findEnded(dateString);
-  //   return endedChallenge;
-  // }
 
   async join(challenge_id, userId) {
     const alreadyJoined = await challengeRepository.findExistingParticipation(

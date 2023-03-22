@@ -85,6 +85,15 @@ challengeController.post(
   },
 );
 
+//전체 챌린지 조회하기(challenge_id) v
+challengeController.get('/all', async (req, res, next) => {
+  try {
+    const challengeData = await challengeService.findAll();
+    res.status(200).send({ data: challengeData });
+  } catch (error) {
+    next(error);
+  }
+});
 //특정 챌린지 조회하기(challenge_id) v
 challengeController.get('/:challenge_id', async (req, res, next) => {
   try {

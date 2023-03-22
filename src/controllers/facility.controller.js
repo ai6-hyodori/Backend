@@ -47,6 +47,7 @@ facilityController.get('/list/search', async (req, res, next) => {
       pageSize,
       offset,
     );
+
     res.status(200).json({
       data: facilities.result,
       maxPage: facilities.maxPage,
@@ -62,8 +63,6 @@ facilityController.get('/filter', async (req, res, next) => {
   try {
     const district = req.query.district ?? '전체';
     const subjcode = req.query.subjcode ?? '전체';
-
-    console.log(district, subjcode);
 
     const facilities = await facilityService.findByFilter(district, subjcode);
     res.status(200).json({ data: facilities });
