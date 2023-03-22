@@ -4,7 +4,7 @@ FROM node:16.19.0-alpine AS appbuild
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package*.json ./
 
 COPY babel.config.json ./
 
@@ -21,20 +21,22 @@ FROM node:16.19.0-alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package*.json ./
 
 COPY babel.config.json ./
 
 COPY .env ./
 
+COPY ecosystem.config.js ./
+
 RUN npm install
 
-COPY --from=appbuild /usr/src/app/dist ./dist
+RUN npm install pm2 -g
 
-EXPOSE ${PORT}
+COPY --from=appbuild /usr/src/app/dist ./dist
 
 ENV TZ ASIA/SEOUL
 
 ENV NODE_ENV production
 
-CMD ["node", "dist/app.js"]
+CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
