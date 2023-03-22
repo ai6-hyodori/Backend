@@ -8,8 +8,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node dist/app.js",
-    "dev": "cross-env NODE_ENV=development nodemon --watch ./ --exec babel-node index.js",
+    "start": "npm run build && cross-env NODE_ENV=production node dist/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon --watch ./ --exec babel-node src/app.js",
     "build": "babel src -d dist"
   },
   "keywords": [],
