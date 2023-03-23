@@ -6,11 +6,11 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-COPY babel.config.json ./
-
 RUN npm install
 
 COPY ./src ./src
+
+COPY babel.config.json ./
 
 RUN npm run build
 
@@ -23,15 +23,11 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-COPY babel.config.json ./
+RUN npm install && npm install pm2 -g
 
 COPY .env ./
 
 COPY ecosystem.config.js ./
-
-RUN npm install
-
-RUN npm install pm2 -g
 
 COPY --from=appbuild /usr/src/app/dist ./dist
 
