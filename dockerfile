@@ -23,7 +23,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install && npm install pm2 -g
+RUN npm ci --omit=dev && npm install @babel/core && npm install pm2 -g
 
 COPY .env ./
 
